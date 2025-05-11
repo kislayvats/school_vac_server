@@ -34,7 +34,7 @@ The Vaccination Management System is a web application designed to manage vaccin
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/kislayvats/vaccination-management-system.git
+   git clone https://github.com/kislayvats/school_vac_server.git
    cd vaccination-management-system
    ```
 
