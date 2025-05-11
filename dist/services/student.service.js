@@ -90,13 +90,14 @@ const getStudents = (query) => __awaiter(void 0, void 0, void 0, function* () {
     });
 });
 const bulkAddStudents = (studentFile) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const file = studentFile.file;
     if (!file) {
         throw new Error("No file uploaded");
     }
-    const fileType = file.originalname.split(".").pop().toLowerCase();
+    const fileType = (_a = file.originalname.split(".").pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase();
     let rows = [];
-    if (fileType == "csv") {
+    if (fileType === "csv") {
         const bufferStream = new stream_1.Readable();
         bufferStream.push(file.buffer);
         bufferStream.push(null);
@@ -109,7 +110,7 @@ const bulkAddStudents = (studentFile) => __awaiter(void 0, void 0, void 0, funct
                 .on("error", (error) => reject(error));
         });
     }
-    else if (fileType == "xlsx") {
+    else if (fileType === "xlsx") {
         const workbook = XLSX.read(file.buffer);
         const sheetName = workbook.SheetNames[0];
         rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);

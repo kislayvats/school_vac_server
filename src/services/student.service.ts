@@ -75,31 +75,31 @@ const bulkAddStudents = async (
   if (!file) {
     throw new Error("No file uploaded");
   }
-  const fileType = file.originalname.split(".").pop().toLowerCase();
-  let rows = [];
-  if (fileType == "csv") {
+  const fileType = file.originalname.split(".").pop()?.toLowerCase();
+  let rows: StudentRegisterDto[] = [];
+  if (fileType === "csv") {
     const bufferStream = new Readable();
     bufferStream.push(file.buffer);
     bufferStream.push(null);
-    rows = await new Promise((resolve, reject) => {
-      const results = [];
+    rows = await new Promise<StudentRegisterDto[]>((resolve, reject) => {
+      const results: StudentRegisterDto[] = [];
       bufferStream
         .pipe(csv())
         .on("data", (data) => results.push(data))
         .on("end", () => resolve(results))
         .on("error", (error) => reject(error));
     });
-  } else if (fileType == "xlsx") {
+  } else if (fileType === "xlsx") {
     const workbook = XLSX.read(file.buffer);
     const sheetName = workbook.SheetNames[0];
-    rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    rows = XLSX.utils.sheet_to_json<StudentRegisterDto>(workbook.Sheets[sheetName]);
   }
   if (!rows.length) {
     throw new Error("No data found in the uploaded file");
   }
 
   console.log("bulkupload", rows);
-  let newStudents = [];
+  let newStudents: StudentRegisterDto[] = [];
   for (const student of rows) {
     const counter = await Counter.findOneAndUpdate(
       {},
