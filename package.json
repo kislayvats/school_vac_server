@@ -1,11 +1,12 @@
 {
   "name": "kislay-server-project",
   "version": "1.0.0",
-  "main": "app.ts",
+  "main": "dist/app.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "vercel-build": "npm run build"
   },
   "keywords": [],
   "author": "",

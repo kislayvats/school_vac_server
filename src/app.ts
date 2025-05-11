@@ -4,11 +4,16 @@ import mongooseConfig from "./config/mongoose.config";
 import expressConfig from "./config/express.config";
 
 const app = express();
-const port = 3000;
 
 mongooseConfig();
 expressConfig(app);
 
-app.listen(port, () => {
-  return console.log(`Express is listening at http://localhost:${port}`);
-});
+// Only start the server if we're not in a serverless environment
+if (process.env.NODE_ENV !== 'production') {
+    const port = process.env.PORT || 3000;
+    app.listen(port, () => {
+        console.log(`Express is listening at http://localhost:${port}`);
+    });
+}
+
+export default app;
